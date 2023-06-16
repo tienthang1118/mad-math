@@ -37,17 +37,19 @@ public class MainMenuManager : MonoBehaviour
         }
         soundSlider.value = PlayerPrefs.GetFloat("Sound");
         musicSlider.value = PlayerPrefs.GetFloat("Music");
-        if(PlayerPrefs.GetInt("LevelCap") <= 4){
+        LockLevel();
+    }
+    void LockLevel(){
+        if(PlayerPrefs.GetInt("LevelCap") < 4){
             lv4LockButton.SetActive(true);
         }
-        if(PlayerPrefs.GetInt("LevelCap") <= 3){
+        if(PlayerPrefs.GetInt("LevelCap") < 3){
             lv3LockButton.SetActive(true);
         }
-        if(PlayerPrefs.GetInt("LevelCap") <= 2){
+        if(PlayerPrefs.GetInt("LevelCap") < 2){
             lv2LockButton.SetActive(true);
         }
     }
-
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -78,6 +80,12 @@ public class MainMenuManager : MonoBehaviour
         else if(levelButtonName == "Level2Button"){
             SceneManager.LoadScene("Level2");
         }
+        else if(levelButtonName == "Level3Button"){
+            SceneManager.LoadScene("Level3");
+        }
+        else if(levelButtonName == "Level4Button"){
+            SceneManager.LoadScene("Level4");
+        }
     }
     public void ClickSurvivalButton(){
         soundSource.PlayOneShot(buttonSound);
@@ -103,6 +111,8 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.SetInt("lv4HighScore", 0);
         PlayerPrefs.SetInt("survivalHighScore", 0);
         PlayerPrefs.SetInt("LevelCap", 1);
+        LockLevel();
+        Debug.Log(PlayerPrefs.GetInt("LevelCap"));
     }
     public void soundVolume(){
         soundSource.volume = soundSlider.value;

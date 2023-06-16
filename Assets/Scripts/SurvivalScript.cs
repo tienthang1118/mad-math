@@ -108,9 +108,6 @@ public class SurvivalScript : MonoBehaviour
             ChangeEnemy();
         }
         ConfigEndgameWindow();
-        if(enemyHealthBar.value == 0){
-            EnemyHPChanged();
-        }
     }
     public void SetEnemyStats(){
         
@@ -377,6 +374,7 @@ public class SurvivalScript : MonoBehaviour
             m_isPlayedSound = true;
         }
         yield return new WaitForSeconds(0.3f);
+        m_isEnemyFinishAttack = true;
         enemies[m_currentEnemyIndex].SetAttackingAnimation(false);
         if(!m_isPlayerHPCaculate){
             int playerHealth = player.GetPlayerHealth();
@@ -389,7 +387,7 @@ public class SurvivalScript : MonoBehaviour
         PlayerHPChanged();
         
         yield return new WaitForSeconds(0.3f);
-        m_isEnemyFinishAttack = true;
+        
 
         if(player.GetPlayerHealth()<0){
             player.SetDeadAnimation(true);
@@ -419,7 +417,7 @@ public class SurvivalScript : MonoBehaviour
     {
         regenerateAnim.SetActive(true);
         audioManager.PlayHealingSound();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         regenerateAnim.SetActive(false);
         int playerRegenerate = player.GetPlayerHealth() + (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed)) + 3;
         if((player.GetPlayerHealth() + playerRegenerate)>player.GetPlayerMaxHealth()){
@@ -427,6 +425,7 @@ public class SurvivalScript : MonoBehaviour
         }
         player.SetPlayerHealth(playerRegenerate);
         PlayerHPChanged();
+        yield return new WaitForSeconds(0.5f);
         PrepareEnemyTurn();
 
     }

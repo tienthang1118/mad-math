@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
         m_endgameScore = 0;
         ConfigLevel();
@@ -121,9 +122,6 @@ public class GameManager : MonoBehaviour
             ChangeEnemy();
         }
         ConfigEndgameWindow();
-        if(enemyHealthBar.value == 0){
-            EnemyHPChanged();
-        }
     }
     public void SetEnemyStats(){
         if(enemies[m_currentEnemyIndex].gameObject.name == "EnemyMushroom"){
@@ -333,9 +331,7 @@ public class GameManager : MonoBehaviour
                 enemies[m_currentEnemyIndex].gameObject.transform.position += Vector3.left * 5 * Time.deltaTime;
             }
             else{
-                if(!m_isEnemyFinishAttack){
-                    StartCoroutine(EnemyAttackAnimation());
-                }
+                StartCoroutine(EnemyAttackAnimation());
             }
         }
         else{
@@ -401,16 +397,16 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator EnemyAttackAnimation()
     {
-        //yield on a new YieldInstruction that waits for 5 seconds.
-        enemies[m_currentEnemyIndex].SetAttackingAnimation(true);
         
+        //yield on a new YieldInstruction that waits for 5 seconds.
         if(!m_isPlayedSound){
             audioManager.PlayAttackSound();
             m_isPlayedSound = true;
         }
-
+        enemies[m_currentEnemyIndex].SetAttackingAnimation(true);
         yield return new WaitForSeconds(0.3f);
         enemies[m_currentEnemyIndex].SetAttackingAnimation(false);
+        m_isEnemyFinishAttack = true;
         if(!m_isPlayerHPCaculate){
             int playerHealth = player.GetPlayerHealth();
             int enemyDamage = enemies[m_currentEnemyIndex].GetEnemyDamage();
@@ -422,8 +418,6 @@ public class GameManager : MonoBehaviour
         PlayerHPChanged();
         
         yield return new WaitForSeconds(0.3f);
-        m_isEnemyFinishAttack = true;
-
         if(player.GetPlayerHealth()<0){
             player.SetDeadAnimation(true);
             yield return new WaitForSeconds(0.5f);
@@ -450,7 +444,7 @@ public class GameManager : MonoBehaviour
     {
         regenerateAnim.SetActive(true);
         audioManager.PlayHealingSound();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         regenerateAnim.SetActive(false);
         int playerRegenerate = player.GetPlayerHealth() + (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed)) + 3;
         if((player.GetPlayerHealth() + playerRegenerate)>player.GetPlayerMaxHealth()){
@@ -458,6 +452,7 @@ public class GameManager : MonoBehaviour
         }
         player.SetPlayerHealth(playerRegenerate);
         PlayerHPChanged();
+        yield return new WaitForSeconds(0.5f);
         PrepareEnemyTurn();
 
     }
@@ -509,23 +504,28 @@ public class GameManager : MonoBehaviour
     }
 
     public void ClickNextButton(){
+        audioManager.PlayButtonSound();
         if(SceneManager.GetActiveScene().buildIndex <4){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             Time.timeScale = 1;
         }
     }
     public void ClickReloadButton(){
+        audioManager.PlayButtonSound();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
     }
     public void ClickHomeButton(){
+        audioManager.PlayButtonSound();
         SceneManager.LoadScene("MainMenu");
     }
     public void ClickBackButton(){
+        audioManager.PlayButtonSound();
         optionWindow.SetActive(false);
         Time.timeScale = 1;
     }
     public void ClickSettingButton(){
+        audioManager.PlayButtonSound();
         Time.timeScale = 0;
         optionWindow.SetActive(true);
     }
@@ -535,8 +535,11 @@ public class GameManager : MonoBehaviour
             if(SceneManager.GetActiveScene().buildIndex <4){
                 nextButton.SetActive(true);
             }
+            Debug.Log(SceneManager.GetActiveScene().buildIndex+1);
+            Debug.Log(PlayerPrefs.GetInt("LevelCap"));
             if(PlayerPrefs.GetInt("LevelCap") < SceneManager.GetActiveScene().buildIndex+1){
                 PlayerPrefs.SetInt("LevelCap", SceneManager.GetActiveScene().buildIndex+1);
+                
             }
         }
         else{
