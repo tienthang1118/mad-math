@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: enemies.Array.data[6]
       value: 
       objectReference: {fileID: 68265809}
+    - target: {fileID: 9002818330875536434, guid: 76bcb8e119ea98c4ea05cf5d3e20d043, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -151.00003
+      objectReference: {fileID: 0}
     - target: {fileID: 9002818331265248755, guid: 76bcb8e119ea98c4ea05cf5d3e20d043, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -448,7 +452,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

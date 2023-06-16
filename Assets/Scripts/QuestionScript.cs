@@ -52,15 +52,15 @@ public class QuestionScript : MonoBehaviour
                 m_answer = m_firstNumber + m_secondNumber;
             }
             else if(operationCode == 2){
-                m_firstNumber = Random.Range(20,101);
-                m_secondNumber = Random.Range(1, m_secondNumber);
+                m_firstNumber = Random.Range(30,101);
+                m_secondNumber = Random.Range(10, m_secondNumber);
                 m_operation = "-";
                 m_answer = m_firstNumber - m_secondNumber;
             }
             else if(operationCode == 3){
                 m_operation = "x";
-                m_firstNumber = Random.Range(1,21);
-                m_secondNumber = Random.Range(1, 10);
+                m_firstNumber = Random.Range(2,21);
+                m_secondNumber = Random.Range(2, 10);
                 m_answer = m_firstNumber * m_secondNumber;
             }
         }
@@ -86,7 +86,7 @@ public class QuestionScript : MonoBehaviour
             }
             else if(operationCode == 4){
                 m_operation = ":";
-                m_firstNumber = Random.Range(50, 101);
+                m_firstNumber = Random.Range(50, 201);
                 m_secondNumber = RandomDivisible(m_firstNumber);
                 m_answer = m_firstNumber / m_secondNumber;
             }

@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
                 m_endgameScore += (int)(10f - m_timeOfTurnPassed);
 
                 m_isPlayerAttacking = true;
-                int playerDamage = (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed));
+                int playerDamage = (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed)) + 1;
                 int enemyHealth = enemies[m_currentEnemyIndex].GetEnemyHealth() - playerDamage;
                 Debug.Log("Correct");
                 enemies[m_currentEnemyIndex].SetEnemyHealth(enemyHealth);
@@ -404,7 +404,7 @@ public class GameManager : MonoBehaviour
             m_isPlayedSound = true;
         }
         enemies[m_currentEnemyIndex].SetAttackingAnimation(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         enemies[m_currentEnemyIndex].SetAttackingAnimation(false);
         m_isEnemyFinishAttack = true;
         if(!m_isPlayerHPCaculate){
