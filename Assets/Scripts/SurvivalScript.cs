@@ -178,7 +178,7 @@ public class SurvivalScript : MonoBehaviour
                 m_endgameScore += (int)(10f - m_timeOfTurnPassed);
 
                 m_isPlayerAttacking = true;
-                int playerDamage = (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed));
+                int playerDamage = (int)((float)player.GetPlayerDamage() /10f * (10f - m_timeOfTurnPassed)) + 3;
                 int enemyHealth = enemies[m_currentEnemyIndex].GetEnemyHealth() - playerDamage;
                 Debug.Log("Correct");
                 enemies[m_currentEnemyIndex].SetEnemyHealth(enemyHealth);
